@@ -587,7 +587,7 @@ bool SPIFlash::writeByteArray(uint32_t _addr, uint8_t *data_buffer, size_t buffe
       data_buffer_idx++;
       CHIP_DESELECT
       delayMicroseconds(10);
-      for (data_buffer_idx < bufferSize; data_buffer_idx++) {
+      for (;data_buffer_idx < bufferSize; data_buffer_idx++) {
         CHIP_SELECT
         _nextByte(WRITE, PAGEPROG);
         _transferAddress();
@@ -623,7 +623,7 @@ bool SPIFlash::writeByteArray(uint32_t _addr, uint8_t *data_buffer, size_t buffe
         data_buffer_idx++;
         CHIP_DESELECT
         delayMicroseconds(10);
-        for (data_buffer_idx < writeBufSz; data_buffer_idx++) {
+        for (;data_buffer_idx < writeBufSz; data_buffer_idx++) {
           CHIP_SELECT
           _nextByte(WRITE, PAGEPROG);
           _transferAddress();
@@ -708,7 +708,7 @@ bool SPIFlash::writeCharArray(uint32_t _addr, char *data_buffer, size_t bufferSi
       data_buffer_idx++;
       CHIP_DESELECT
       delayMicroseconds(10);
-      for (data_buffer_idx < bufferSize; data_buffer_idx++) {
+      for (;data_buffer_idx < bufferSize; data_buffer_idx++) {
         CHIP_SELECT
         _nextByte(WRITE, PAGEPROG);
         _transferAddress();
@@ -741,7 +741,7 @@ bool SPIFlash::writeCharArray(uint32_t _addr, char *data_buffer, size_t bufferSi
         data_buffer_idx++;
         CHIP_DESELECT
         delayMicroseconds(10);
-        for (data_buffer_idx < writeBufSz; data_buffer_idx++) {
+        for (;data_buffer_idx < writeBufSz; data_buffer_idx++) {
           CHIP_SELECT
           _nextByte(WRITE, PAGEPROG);
           _transferAddress();
@@ -1139,7 +1139,7 @@ bool SPIFlash::writeStr(uint32_t _addr, String &data, bool errorCheck) {
       data_buffer_idx++;
       CHIP_DESELECT
       delayMicroseconds(10);
-      for (data_buffer_idx < _sz; data_buffer_idx++) {
+      for (;data_buffer_idx < _sz; data_buffer_idx++) {
         CHIP_SELECT
         _nextByte(WRITE, PAGEPROG);
         _transferAddress();
@@ -1152,10 +1152,6 @@ bool SPIFlash::writeStr(uint32_t _addr, String &data, bool errorCheck) {
       for (uint16_t i = 0; i < _sz; ++i) {
         _nextByte(WRITE, _outCharArray[i]);
       }
-    }
-
-    for (uint16_t i = 0; i < _sz; ++i) {
-      _nextByte(WRITE, _outCharArray[i]);
     }
     CHIP_DESELECT
   }
@@ -1177,7 +1173,7 @@ bool SPIFlash::writeStr(uint32_t _addr, String &data, bool errorCheck) {
         data_buffer_idx++;
         CHIP_DESELECT
         delayMicroseconds(10);
-        for (data_buffer_idx < writeBufSz; data_buffer_idx++) {
+        for (;data_buffer_idx < writeBufSz; data_buffer_idx++) {
           CHIP_SELECT
           _nextByte(WRITE, PAGEPROG);
           _transferAddress();
