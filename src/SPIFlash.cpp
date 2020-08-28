@@ -1073,10 +1073,6 @@ bool SPIFlash::writeStr(uint32_t _addr, String &data, bool errorCheck) {
     return writeCharArray(_addr,_outCharArray,_sz);
   }
 
-  if (!_prep(PAGEPROG, _addr, bufferSize)) {
-    return false;
-  }
-
   if(_isChipPoweredDown() || !_addressCheck(_addr, sizeof(_sz)) || !_notPrevWritten(_addr, sizeof(_sz)+_sz) || !_notBusy() || !_writeEnable()) {
     return false;
   }
