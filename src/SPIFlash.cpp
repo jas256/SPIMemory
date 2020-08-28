@@ -569,9 +569,25 @@ bool SPIFlash::writeByteArray(uint32_t _addr, uint8_t *data_buffer, size_t buffe
   #ifdef RUNDIAGNOSTIC
     _spifuncruntime = micros();
   #endif
+
+  if (_chip.manufacturerID == MICROCHIP_MANID && _chip.memoryTypeID == SST25)
+  {
+    for (uint16_t i; i < bufferSize; i++)
+    {
+      if (!writeByte(_addr + i,data_buffer[i]);)
+      {
+        return false;
+      }
+    }
+    return true;
+  }
+
   if (!_prep(PAGEPROG, _addr, bufferSize)) {
     return false;
   }
+
+  
+
   uint16_t maxBytes = SPI_PAGESIZE-(_addr % SPI_PAGESIZE);  // Force the first set of bytes to stay within the first page
 
   if (bufferSize <= maxBytes) {
@@ -653,6 +669,22 @@ bool SPIFlash::writeCharArray(uint32_t _addr, char *data_buffer, size_t bufferSi
   #ifdef RUNDIAGNOSTIC
     _spifuncruntime = micros();
   #endif
+
+  if (_chip.manufacturerID == MICROCHIP_MANID && _chip.memoryTypeID == SST25)
+  {
+    for (uint16_t i; i < bufferSize; i++)
+    {
+      if (!writeChar(_addr + i,data_buffer[i]);)
+      {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  if (!_prep(PAGEPROG, _addr, bufferSize)) {
+    return false;
+  }
   if (!_prep(PAGEPROG, _addr, bufferSize)) {
     return false;
   }
@@ -977,7 +1009,7 @@ bool SPIFlash::writeFloat(uint32_t _addr, float data, bool errorCheck) {
     uint8_t byte[sizeof(float)];
   } dataOut;
   dataOut.Float = data;
-
+  
   _beginSPI(PAGEPROG);
   for (uint8_t i = 0; i < sizeof(data); i++) {
     _nextByte(WRITE, dataOut.byte[i]);
@@ -1037,6 +1069,15 @@ bool SPIFlash::writeStr(uint32_t _addr, String &data, bool errorCheck) {
 
   char _outCharArray[_sz];
   data.toCharArray(_outCharArray, _sz);
+
+  if (_chip.manufacturerID == MICROCHIP_MANID && _chip.memoryTypeID == SST25)
+  {
+    return writeCharArray(_addr,_outCharArray,_sz);
+  }
+
+  if (!_prep(PAGEPROG, _addr, bufferSize)) {
+    return false;
+  }
 
   if(_isChipPoweredDown() || !_addressCheck(_addr, sizeof(_sz)) || !_notPrevWritten(_addr, sizeof(_sz)+_sz) || !_notBusy() || !_writeEnable()) {
     return false;
