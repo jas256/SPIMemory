@@ -577,6 +577,14 @@ bool SPIFlash::writeByteArray(uint32_t _addr, uint8_t *data_buffer, size_t buffe
   if (bufferSize <= maxBytes) {
     CHIP_SELECT
     _nextByte(WRITE, PAGEPROG);
+    if (_chip.manufacturerID == MICROCHIP_MANID && _chip.memoryTypeID == SST25 && bufferSize > 1)
+    {
+      _nextByte(WRITE, SST25_AAI_WRITE);
+    }
+    else
+    {
+      _nextByte(WRITE, PAGEPROG);
+    }
     _transferAddress();
     //_nextBuf(PAGEPROG, &data_buffer[0], bufferSize);
     for (uint16_t i = 0; i < bufferSize; ++i) {
@@ -593,7 +601,14 @@ bool SPIFlash::writeByteArray(uint32_t _addr, uint8_t *data_buffer, size_t buffe
       writeBufSz = (length<=maxBytes) ? length : maxBytes;
 
       CHIP_SELECT
-      _nextByte(WRITE, PAGEPROG);
+      if (_chip.manufacturerID == MICROCHIP_MANID && _chip.memoryTypeID == SST25 && bufferSize > 1)
+      {
+        _nextByte(WRITE, SST25_AAI_WRITE);
+      }
+      else
+      {
+        _nextByte(WRITE, PAGEPROG);
+      }
       _transferAddress();
       //_nextBuf(PAGEPROG, &data_buffer[data_offset], writeBufSz);
       for (uint16_t i = 0; i < writeBufSz; ++i) {
@@ -660,7 +675,14 @@ bool SPIFlash::writeCharArray(uint32_t _addr, char *data_buffer, size_t bufferSi
 
   if (bufferSize <= maxBytes) {
     CHIP_SELECT
-    _nextByte(WRITE, PAGEPROG);
+    if (_chip.manufacturerID == MICROCHIP_MANID && _chip.memoryTypeID == SST25 && bufferSize > 1)
+    {
+      _nextByte(WRITE, SST25_AAI_WRITE);
+    }
+    else
+    {
+      _nextByte(WRITE, PAGEPROG);
+    }
     _transferAddress();
     //_nextBuf(PAGEPROG, &data_buffer[0], bufferSize);
     for (uint16_t i = 0; i < bufferSize; ++i) {
@@ -677,7 +699,14 @@ bool SPIFlash::writeCharArray(uint32_t _addr, char *data_buffer, size_t bufferSi
       writeBufSz = (length<=maxBytes) ? length : maxBytes;
 
       CHIP_SELECT
-      _nextByte(WRITE, PAGEPROG);
+      if (_chip.manufacturerID == MICROCHIP_MANID && _chip.memoryTypeID == SST25 && bufferSize > 1)
+      {
+        _nextByte(WRITE, SST25_AAI_WRITE);
+      }
+      else
+      {
+        _nextByte(WRITE, PAGEPROG);
+      }
       _transferAddress();
       for (uint16_t i = 0; i < writeBufSz; ++i) {
         _nextByte(WRITE, data_buffer[data_offset + i]);
@@ -1056,7 +1085,14 @@ bool SPIFlash::writeStr(uint32_t _addr, String &data, bool errorCheck) {
 
   if (_sz <= maxBytes) {
     CHIP_SELECT
-    _nextByte(WRITE, PAGEPROG);
+    if (_chip.manufacturerID == MICROCHIP_MANID && _chip.memoryTypeID == SST25 && _sz > 1)
+    {
+      _nextByte(WRITE, SST25_AAI_WRITE);
+    }
+    else
+    {
+      _nextByte(WRITE, PAGEPROG);
+    }
     _transferAddress();
     //_nextBuf(PAGEPROG, &_outCharArray[0], _sz);
     for (uint16_t i = 0; i < _sz; ++i) {
@@ -1073,7 +1109,14 @@ bool SPIFlash::writeStr(uint32_t _addr, String &data, bool errorCheck) {
       writeBufSz = (length<=maxBytes) ? length : maxBytes;
 
       CHIP_SELECT
-      _nextByte(WRITE, PAGEPROG);
+      if (_chip.manufacturerID == MICROCHIP_MANID && _chip.memoryTypeID == SST25 && _sz > 1)
+      {
+        _nextByte(WRITE, SST25_AAI_WRITE);
+      }
+      else
+      {
+        _nextByte(WRITE, PAGEPROG);
+      }
       _transferAddress();
       for (uint16_t i = 0; i < writeBufSz; ++i) {
         _nextByte(WRITE, _outCharArray[data_offset + i]);

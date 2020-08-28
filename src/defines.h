@@ -156,6 +156,7 @@
   #define SST25                 0x25
   #define SST26                 0x26
   #define ULBPR                 0x98    //Global Block Protection Unlock (Ref sections 4.1.1 & 5.37 of datasheet)
+  #define SST25_AAI_WRITE       0xAD
 
 //~~~~~~~~~~~~~~~~~~~~~~~~ Cypress ~~~~~~~~~~~~~~~~~~~~~~~~//
   #define CYPRESS_MANID         0x01
