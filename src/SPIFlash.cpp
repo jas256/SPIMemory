@@ -578,29 +578,9 @@ bool SPIFlash::writeByteArray(uint32_t _addr, uint8_t *data_buffer, size_t buffe
     CHIP_SELECT
     _nextByte(WRITE, PAGEPROG);
     _transferAddress();
-    
     //_nextBuf(PAGEPROG, &data_buffer[0], bufferSize);
-    if (_chip.manufacturerID == MICROCHIP_MANID && _chip.memoryTypeID == SST25 && bufferSize > 1)
-    {
-      uint16_t data_buffer_idx = 0;
-      _nextByte(WRITE, data_buffer[data_buffer_idx]);
-      data_buffer_idx++;
-      CHIP_DESELECT
-      delayMicroseconds(10);
-      for (;data_buffer_idx < bufferSize; data_buffer_idx++) {
-        CHIP_SELECT
-        _nextByte(WRITE, PAGEPROG);
-        _transferAddress();
-        _nextByte(WRITE, data_buffer[data_buffer_idx]);
-        delayMicroseconds(10);
-        CHIP_DESELECT
-      }
-    }
-    else
-    {
-      for (uint16_t i = 0; i < bufferSize; ++i) {
-        _nextByte(WRITE, data_buffer[i]);
-      }
+    for (uint16_t i = 0; i < bufferSize; ++i) {
+      _nextByte(WRITE, data_buffer[i]);
     }
     CHIP_DESELECT
   }
@@ -611,33 +591,14 @@ bool SPIFlash::writeByteArray(uint32_t _addr, uint8_t *data_buffer, size_t buffe
 
     do {
       writeBufSz = (length<=maxBytes) ? length : maxBytes;
+
       CHIP_SELECT
       _nextByte(WRITE, PAGEPROG);
       _transferAddress();
       //_nextBuf(PAGEPROG, &data_buffer[data_offset], writeBufSz);
-
-      if (_chip.manufacturerID == MICROCHIP_MANID && _chip.memoryTypeID == SST25 && bufferSize > 1)
-      {
-        uint16_t data_buffer_idx = 0;
-        _nextByte(WRITE, data_buffer[data_offset + data_buffer_idx]);
-        data_buffer_idx++;
-        CHIP_DESELECT
-        delayMicroseconds(10);
-        for (;data_buffer_idx < writeBufSz; data_buffer_idx++) {
-          CHIP_SELECT
-          _nextByte(WRITE, PAGEPROG);
-          _transferAddress();
-          _nextByte(WRITE, data_buffer[data_offset + data_buffer_idx]);
-          delayMicroseconds(10);
-          CHIP_DESELECT
-        }
+      for (uint16_t i = 0; i < writeBufSz; ++i) {
+        _nextByte(WRITE, data_buffer[data_offset + i]);
       }
-      else
-      {
-        for (uint16_t i = 0; i < writeBufSz; ++i) {
-          _nextByte(WRITE, data_buffer[data_offset + i]);
-        }
-      } 
       CHIP_DESELECT
 
       _currentAddress += writeBufSz;
@@ -702,25 +663,8 @@ bool SPIFlash::writeCharArray(uint32_t _addr, char *data_buffer, size_t bufferSi
     _nextByte(WRITE, PAGEPROG);
     _transferAddress();
     //_nextBuf(PAGEPROG, &data_buffer[0], bufferSize);
-    if (_chip.manufacturerID == MICROCHIP_MANID && _chip.memoryTypeID == SST25 && bufferSize > 1) {
-      uint16_t data_buffer_idx = 0;
-      _nextByte(WRITE, data_buffer[data_buffer_idx]);
-      data_buffer_idx++;
-      CHIP_DESELECT
-      delayMicroseconds(10);
-      for (;data_buffer_idx < bufferSize; data_buffer_idx++) {
-        CHIP_SELECT
-        _nextByte(WRITE, PAGEPROG);
-        _transferAddress();
-        _nextByte(WRITE, data_buffer[data_buffer_idx]);
-        delayMicroseconds(10);
-        CHIP_DESELECT
-      }
-    }
-    else {
-      for (uint16_t i = 0; i < bufferSize; ++i) {
-        _nextByte(WRITE, data_buffer[i]);
-      }
+    for (uint16_t i = 0; i < bufferSize; ++i) {
+      _nextByte(WRITE, data_buffer[i]);
     }
     CHIP_DESELECT
   }
@@ -735,25 +679,8 @@ bool SPIFlash::writeCharArray(uint32_t _addr, char *data_buffer, size_t bufferSi
       CHIP_SELECT
       _nextByte(WRITE, PAGEPROG);
       _transferAddress();
-      if (_chip.manufacturerID == MICROCHIP_MANID && _chip.memoryTypeID == SST25 && bufferSize > 1) {
-        uint16_t data_buffer_idx = 0;
-        _nextByte(WRITE, data_buffer[data_offset + data_buffer_idx]);
-        data_buffer_idx++;
-        CHIP_DESELECT
-        delayMicroseconds(10);
-        for (;data_buffer_idx < writeBufSz; data_buffer_idx++) {
-          CHIP_SELECT
-          _nextByte(WRITE, PAGEPROG);
-          _transferAddress();
-          _nextByte(WRITE, data_buffer[data_offset + data_buffer_idx]);
-          delayMicroseconds(10);
-          CHIP_DESELECT
-        }
-      }
-      else {
-        for (uint16_t i = 0; i < writeBufSz; ++i) {
-          _nextByte(WRITE, data_buffer[data_offset + i]);
-        }
+      for (uint16_t i = 0; i < writeBufSz; ++i) {
+        _nextByte(WRITE, data_buffer[data_offset + i]);
       }
       CHIP_DESELECT
 
@@ -1132,26 +1059,8 @@ bool SPIFlash::writeStr(uint32_t _addr, String &data, bool errorCheck) {
     _nextByte(WRITE, PAGEPROG);
     _transferAddress();
     //_nextBuf(PAGEPROG, &_outCharArray[0], _sz);
-
-    if (_chip.manufacturerID == MICROCHIP_MANID && _chip.memoryTypeID == SST25 && _sz > 1) {
-      uint16_t data_buffer_idx = 0;
-      _nextByte(WRITE, _outCharArray[data_buffer_idx]);
-      data_buffer_idx++;
-      CHIP_DESELECT
-      delayMicroseconds(10);
-      for (;data_buffer_idx < _sz; data_buffer_idx++) {
-        CHIP_SELECT
-        _nextByte(WRITE, PAGEPROG);
-        _transferAddress();
-        _nextByte(WRITE, _outCharArray[data_buffer_idx]);
-        delayMicroseconds(10);
-        CHIP_DESELECT
-      }
-    }
-    else {
-      for (uint16_t i = 0; i < _sz; ++i) {
-        _nextByte(WRITE, _outCharArray[i]);
-      }
+    for (uint16_t i = 0; i < _sz; ++i) {
+      _nextByte(WRITE, _outCharArray[i]);
     }
     CHIP_DESELECT
   }
@@ -1166,26 +1075,8 @@ bool SPIFlash::writeStr(uint32_t _addr, String &data, bool errorCheck) {
       CHIP_SELECT
       _nextByte(WRITE, PAGEPROG);
       _transferAddress();
-
-      if (_chip.manufacturerID == MICROCHIP_MANID && _chip.memoryTypeID == SST25 && _sz > 1) {
-        uint16_t data_buffer_idx = 0;
-        _nextByte(WRITE, _outCharArray[data_offset + data_buffer_idx]);
-        data_buffer_idx++;
-        CHIP_DESELECT
-        delayMicroseconds(10);
-        for (;data_buffer_idx < writeBufSz; data_buffer_idx++) {
-          CHIP_SELECT
-          _nextByte(WRITE, PAGEPROG);
-          _transferAddress();
-          _nextByte(WRITE, _outCharArray[data_offset + data_buffer_idx]);
-          delayMicroseconds(10);
-          CHIP_DESELECT
-        }
-      }
-      else {
-        for (uint16_t i = 0; i < writeBufSz; ++i) {
-          _nextByte(WRITE, _outCharArray[data_offset + i]);
-        }
+      for (uint16_t i = 0; i < writeBufSz; ++i) {
+        _nextByte(WRITE, _outCharArray[data_offset + i]);
       }
       CHIP_DESELECT
 
