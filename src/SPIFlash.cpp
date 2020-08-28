@@ -574,7 +574,7 @@ bool SPIFlash::writeByteArray(uint32_t _addr, uint8_t *data_buffer, size_t buffe
   {
     for (uint16_t i; i < bufferSize; i++)
     {
-      if (!writeByte(_addr + i,data_buffer[i]);)
+      if (!writeByte(_addr + i,data_buffer[i]))
       {
         return false;
       }
@@ -585,8 +585,6 @@ bool SPIFlash::writeByteArray(uint32_t _addr, uint8_t *data_buffer, size_t buffe
   if (!_prep(PAGEPROG, _addr, bufferSize)) {
     return false;
   }
-
-  
 
   uint16_t maxBytes = SPI_PAGESIZE-(_addr % SPI_PAGESIZE);  // Force the first set of bytes to stay within the first page
 
@@ -674,7 +672,7 @@ bool SPIFlash::writeCharArray(uint32_t _addr, char *data_buffer, size_t bufferSi
   {
     for (uint16_t i; i < bufferSize; i++)
     {
-      if (!writeChar(_addr + i,data_buffer[i]);)
+      if (!writeChar(_addr + i,data_buffer[i]))
       {
         return false;
       }
