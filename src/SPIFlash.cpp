@@ -572,7 +572,7 @@ bool SPIFlash::writeByteArray(uint32_t _addr, uint8_t *data_buffer, size_t buffe
 
   if (_chip.manufacturerID == MICROCHIP_MANID && _chip.memoryTypeID == SST25)
   {
-    for (uint16_t i; i < bufferSize; i++)
+    for (uint16_t i=0; i < bufferSize; i++)
     {
       if (!writeByte(_addr + i,data_buffer[i]))
       {
@@ -670,7 +670,7 @@ bool SPIFlash::writeCharArray(uint32_t _addr, char *data_buffer, size_t bufferSi
 
   if (_chip.manufacturerID == MICROCHIP_MANID && _chip.memoryTypeID == SST25)
   {
-    for (uint16_t i; i < bufferSize; i++)
+    for (uint16_t i=0; i < bufferSize; i++)
     {
       if (!writeChar(_addr + i,data_buffer[i]))
       {
