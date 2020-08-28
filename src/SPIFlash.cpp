@@ -587,7 +587,7 @@ bool SPIFlash::writeByteArray(uint32_t _addr, uint8_t *data_buffer, size_t buffe
       data_buffer_idx++;
       CHIP_DESELECT
       delayMicroseconds(10);
-      for (data_buffer_idx; i < bufferSize; data_buffer_idx++) {
+      for (data_buffer_idx; data_buffer_idx < bufferSize; data_buffer_idx++) {
         CHIP_SELECT
         _nextByte(WRITE, data_buffer[data_buffer_idx]);
         delayMicroseconds(10);
@@ -621,7 +621,7 @@ bool SPIFlash::writeByteArray(uint32_t _addr, uint8_t *data_buffer, size_t buffe
         data_buffer_idx++;
         CHIP_DESELECT
         delayMicroseconds(10);
-        for (data_buffer_idx; i < writeBufSz; data_buffer_idx++) {
+        for (data_buffer_idx; data_buffer_idx < writeBufSz; data_buffer_idx++) {
           CHIP_SELECT
           _nextByte(WRITE, data_buffer[data_offset + data_buffer_idx]);
           delayMicroseconds(10);
@@ -704,7 +704,7 @@ bool SPIFlash::writeCharArray(uint32_t _addr, char *data_buffer, size_t bufferSi
       data_buffer_idx++;
       CHIP_DESELECT
       delayMicroseconds(10);
-      for (data_buffer_idx; i < bufferSize; data_buffer_idx++) {
+      for (data_buffer_idx; data_buffer_idx < bufferSize; data_buffer_idx++) {
         CHIP_SELECT
         _nextByte(WRITE, data_buffer[data_buffer_idx]);
         delayMicroseconds(10);
@@ -735,7 +735,7 @@ bool SPIFlash::writeCharArray(uint32_t _addr, char *data_buffer, size_t bufferSi
         data_buffer_idx++;
         CHIP_DESELECT
         delayMicroseconds(10);
-        for (data_buffer_idx; i < writeBufSz; data_buffer_idx++) {
+        for (data_buffer_idx; data_buffer_idx < writeBufSz; data_buffer_idx++) {
           CHIP_SELECT
           _nextByte(WRITE, data_buffer[data_offset + data_buffer_idx]);
           delayMicroseconds(10);
@@ -1131,7 +1131,7 @@ bool SPIFlash::writeStr(uint32_t _addr, String &data, bool errorCheck) {
       data_buffer_idx++;
       CHIP_DESELECT
       delayMicroseconds(10);
-      for (data_buffer_idx; i < _sz; data_buffer_idx++) {
+      for (data_buffer_idx; data_buffer_idx < _sz; data_buffer_idx++) {
         CHIP_SELECT
         _nextByte(WRITE, _outCharArray[data_buffer_idx]);
         delayMicroseconds(10);
@@ -1167,7 +1167,7 @@ bool SPIFlash::writeStr(uint32_t _addr, String &data, bool errorCheck) {
         data_buffer_idx++;
         CHIP_DESELECT
         delayMicroseconds(10);
-        for (data_buffer_idx; i < writeBufSz; data_buffer_idx++) {
+        for (data_buffer_idx; data_buffer_idx < writeBufSz; data_buffer_idx++) {
           CHIP_SELECT
           _nextByte(WRITE, _outCharArray[data_offset + data_buffer_idx]);
           delayMicroseconds(10);
